@@ -106,7 +106,6 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
     if (!props.visible || !props.drag) {
       return;
     }
-    e.preventDefault();
     if (e.touches.length === 1) {
       prePosition.current = {
         x: e.touches[0].clientX,
@@ -133,7 +132,7 @@ export default function ViewerCanvas(props: ViewerCanvasProps) {
     if (e.touches.length === 0) {
       isPinch.current = false;
     }
-  }
+  };
 
   const handleMouseMove = (e) => {
     if (isMouseDown.current) {
