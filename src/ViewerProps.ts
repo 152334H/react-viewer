@@ -78,6 +78,9 @@ interface ViewerProps {
   // zoom speed
   zoomSpeed?: number;
 
+  // pinch zoom speed
+  pinchSpeed?: number;
+
   // default image size
   defaultSize?: ViewerImageSize;
 
@@ -101,6 +104,9 @@ interface ViewerProps {
 
   // disable mouse zoom
   disableMouseZoom?: boolean;
+
+  // disable the pinch zoom touch gesture
+  disablePinchZoom?: boolean;
 
   // whether to download in a new window
   downloadInNewWindow?: boolean;
