@@ -127,6 +127,8 @@ interface ViewerProps {
 
   // min scale
   minScale?: number;
+
+  onIndexChange?: (newIndex: number) => void;
 }
 
 export default ViewerProps;

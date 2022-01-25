@@ -75,6 +75,7 @@ export default (props: ViewerProps) => {
     showTotal = true,
     totalName = 'of',
     minScale = 0.1,
+    onIndexChange = noop,
    } = props;
 
   const initialState: ViewerCoreState = {
@@ -117,6 +118,7 @@ export default (props: ViewerProps) => {
           visible: action.payload.visible,
         };
       case ACTION_TYPES.setActiveIndex:
+        onIndexChange(action.payload.index);
         return {
           ...s,
           activeIndex: action.payload.index,
@@ -279,9 +281,15 @@ export default (props: ViewerProps) => {
       if (noResetZoomAfterChange && !isReset) {
         scaleX = activeImage.scale;
         scaleY = activeImage.scale;
-        left = activeImage.left;
-        top = activeImage.top;
-        rotate = activeImage.rotate;
+        if ('left' in activeImage) {
+          left = activeImage.left;
+        }
+        if ('top' in activeImage) {
+          top = activeImage.top;
+        }
+        if ('rotate' in activeImage) {
+          rotate = activeImage.rotate;
+        }
       }
       dispatch(createAction(ACTION_TYPES.update, {
         width: width,
@@ -325,7 +333,7 @@ export default (props: ViewerProps) => {
     return [width, height];
   }
   function updateImageState() {
-    const prevImage = getActiveImage(state.activeIndex);
+    const prevImage = getActiveImage();
     prevImage.scale = state.scaleX;
     prevImage.left = state.left;
     prevImage.top = state.top;
@@ -369,7 +377,6 @@ export default (props: ViewerProps) => {
     if (images.length > 0 && realActiveIndex >= 0) {
       activeImg2 = images[realActiveIndex];
     }
-
     return activeImg2;
   }
 
@@ -454,6 +461,7 @@ export default (props: ViewerProps) => {
     handleDefaultAction(config.actionType);
 
     if (config.onClick) {
+      updateImageState();
       const activeImage = getActiveImage();
       config.onClick(activeImage);
     }
