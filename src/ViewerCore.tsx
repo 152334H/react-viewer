@@ -320,8 +320,8 @@ export default (props: ViewerProps) => {
     }
     return [width, height];
   }
-  function handlePrevImg(oldIndex: number) {
-    const prevImage = getActiveImage(oldIndex);
+  function updateImageState() {
+    const prevImage = getActiveImage(state.activeIndex);
     prevImage.scale = state.scaleX;
   }
   function handleChangeImg(newIndex: number) {
@@ -398,35 +398,42 @@ export default (props: ViewerProps) => {
   function handleDefaultAction(type: ActionType) {
     switch (type) {
       case ActionType.prev:
-        handlePrevImg(state.activeIndex);
+        updateImageState();
         handleChangeImg(state.activeIndex - 1);
         break;
       case ActionType.next:
-        handlePrevImg(state.activeIndex);
+        updateImageState();
         handleChangeImg(state.activeIndex + 1);
         break;
       case ActionType.zoomIn:
         let imgCenterXY = getImageCenterXY();
         handleZoom(imgCenterXY.x, imgCenterXY.y, 1, zoomSpeed);
+        updateImageState();
         break;
       case ActionType.zoomOut:
         let imgCenterXY2 = getImageCenterXY();
         handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, zoomSpeed);
+        updateImageState();
         break;
       case ActionType.rotateLeft:
         handleRotate();
+        updateImageState();
         break;
       case ActionType.rotateRight:
         handleRotate(true);
+        updateImageState();
         break;
       case ActionType.reset:
         loadImg(state.activeIndex, true);
+        updateImageState();
         break;
       case ActionType.scaleX:
         handleScaleX(-1);
+        updateImageState();
         break;
       case ActionType.scaleY:
         handleScaleY(-1);
+        updateImageState();
         break;
       case ActionType.download:
         handleDownload();
