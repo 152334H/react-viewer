@@ -271,9 +271,10 @@ export default (props: ViewerProps) => {
       let top = (containerSize.current.height - height - footerHeight) / 2;
       let scaleX = defaultScale;
       let scaleY = defaultScale;
+
       if (noResetZoomAfterChange && !isReset) {
-        scaleX = state.scaleX;
-        scaleY = state.scaleY;
+        scaleX = activeImage.scale;
+        scaleY = activeImage.scale;
       }
       dispatch(createAction(ACTION_TYPES.update, {
         width: width,
@@ -316,7 +317,10 @@ export default (props: ViewerProps) => {
     }
     return [width, height];
   }
-
+  function handlePrevImg(oldIndex: number) {
+    const prevImage = getActiveImage(oldIndex);
+    prevImage.scale = state.scaleX;
+  }
   function handleChangeImg(newIndex: number) {
     if (!loop && (newIndex >= images.length || newIndex < 0)) {
       return;
@@ -391,9 +395,11 @@ export default (props: ViewerProps) => {
   function handleDefaultAction(type: ActionType) {
     switch (type) {
       case ActionType.prev:
+        handlePrevImg(state.activeIndex);
         handleChangeImg(state.activeIndex - 1);
         break;
       case ActionType.next:
+        handlePrevImg(state.activeIndex);
         handleChangeImg(state.activeIndex + 1);
         break;
       case ActionType.zoomIn:
