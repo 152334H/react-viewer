@@ -9,6 +9,9 @@ export interface ImageDecorator {
   downloadUrl?: string;
   defaultSize?: ViewerImageSize;
   scale?: number;
+  left?: number;
+  top?: number;
+  rotate?: number;
 }
 
 export interface ToolbarConfig {

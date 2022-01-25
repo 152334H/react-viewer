@@ -274,10 +274,14 @@ export default (props: ViewerProps) => {
       let top = (containerSize.current.height - height - footerHeight) / 2;
       let scaleX = defaultScale;
       let scaleY = defaultScale;
+      let rotate = 0;
 
       if (noResetZoomAfterChange && !isReset) {
         scaleX = activeImage.scale;
         scaleY = activeImage.scale;
+        left = activeImage.left;
+        top = activeImage.top;
+        rotate = activeImage.rotate;
       }
       dispatch(createAction(ACTION_TYPES.update, {
         width: width,
@@ -287,7 +291,7 @@ export default (props: ViewerProps) => {
         imageWidth: imgWidth,
         imageHeight: imgHeight,
         loading: false,
-        rotate: 0,
+        rotate: rotate,
         scaleX: scaleX,
         scaleY: scaleY,
         loadFailed: !success,
@@ -323,6 +327,9 @@ export default (props: ViewerProps) => {
   function updateImageState() {
     const prevImage = getActiveImage(state.activeIndex);
     prevImage.scale = state.scaleX;
+    prevImage.left = state.left;
+    prevImage.top = state.top;
+    prevImage.rotate = state.rotate;
   }
   function handleChangeImg(newIndex: number) {
     if (!loop && (newIndex >= images.length || newIndex < 0)) {
