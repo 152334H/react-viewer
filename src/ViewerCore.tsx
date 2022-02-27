@@ -75,6 +75,7 @@ export default (props: ViewerProps) => {
     showTotal = true,
     totalName = 'of',
     minScale = 0.1,
+    triggerUpdate = 0,
    } = props;
   const onCloseWrapped = () => {
     updateImageState();
@@ -157,6 +158,10 @@ export default (props: ViewerProps) => {
   const currentLoadIndex = React.useRef(0);
   const pinchDistance = React.useRef(0);
   const [ state, dispatch ] = React.useReducer<(s: any, a: any) => ViewerCoreState>(reducer, initialState);
+
+  React.useEffect(() => {
+    if (triggerUpdate) { updateImageState(); }
+  }, [ triggerUpdate ]);
 
   React.useEffect(() => {
     init.current = true;

@@ -127,6 +127,8 @@ interface ViewerProps {
 
   // min scale
   minScale?: number;
+
+  triggerUpdate?: number;
 }
 
 export default ViewerProps;
