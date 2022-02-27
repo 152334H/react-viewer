@@ -75,8 +75,11 @@ export default (props: ViewerProps) => {
     showTotal = true,
     totalName = 'of',
     minScale = 0.1,
-    onIndexChange = noop,
    } = props;
+  const onCloseWrapped = () => {
+    updateImageState();
+    return onClose();
+  };
 
   const initialState: ViewerCoreState = {
     visible: false,
@@ -118,7 +121,6 @@ export default (props: ViewerProps) => {
           visible: action.payload.visible,
         };
       case ACTION_TYPES.setActiveIndex:
-        onIndexChange(action.payload.index);
         return {
           ...s,
           activeIndex: action.payload.index,
@@ -422,32 +424,25 @@ export default (props: ViewerProps) => {
       case ActionType.zoomIn:
         let imgCenterXY = getImageCenterXY();
         handleZoom(imgCenterXY.x, imgCenterXY.y, 1, zoomSpeed);
-        updateImageState();
         break;
       case ActionType.zoomOut:
         let imgCenterXY2 = getImageCenterXY();
         handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, zoomSpeed);
-        updateImageState();
         break;
       case ActionType.rotateLeft:
         handleRotate();
-        updateImageState();
         break;
       case ActionType.rotateRight:
         handleRotate(true);
-        updateImageState();
         break;
       case ActionType.reset:
         loadImg(state.activeIndex, true);
-        updateImageState();
         break;
       case ActionType.scaleX:
         handleScaleX(-1);
-        updateImageState();
         break;
       case ActionType.scaleY:
         handleScaleY(-1);
-        updateImageState();
         break;
       case ActionType.download:
         handleDownload();
@@ -513,7 +508,7 @@ export default (props: ViewerProps) => {
     switch (keyCode) {
       // key: esc
       case 27:
-        onClose();
+        onCloseWrapped();
         isFeatrue = true;
         break;
       // key: ←
@@ -728,7 +723,7 @@ export default (props: ViewerProps) => {
         <div
           className={`${prefixCls}-close ${prefixCls}-btn`}
           onClick={() => {
-            onClose();
+            onCloseWrapped();
           }}
           style={{ zIndex: zIndex + 10 }}
         >
