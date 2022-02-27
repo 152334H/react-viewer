@@ -359,6 +359,8 @@ export default (props: ViewerProps) => {
     if (newIndex === state.activeIndex) {
       return;
     }
+    // the index is truly changing!
+    updateImageState();
     if (props.onChange) {
       const activeImage = getActiveImage(newIndex);
       props.onChange(activeImage, newIndex);
@@ -419,11 +421,9 @@ export default (props: ViewerProps) => {
   function handleDefaultAction(type: ActionType) {
     switch (type) {
       case ActionType.prev:
-        updateImageState();
         handleChangeImg(state.activeIndex - 1);
         break;
       case ActionType.next:
-        updateImageState();
         handleChangeImg(state.activeIndex + 1);
         break;
       case ActionType.zoomIn:
