@@ -288,6 +288,7 @@ export default (props: ViewerProps) => {
       if (noResetZoomAfterChange && !isReset) {
         scaleX = activeImage.scale;
         scaleY = activeImage.scale;
+        if (activeImage.mirror) { scaleX *= -1; }
         if ('left' in activeImage) {
           left = activeImage.left;
         }
@@ -341,7 +342,8 @@ export default (props: ViewerProps) => {
   }
   function updateImageState() {
     const prevImage = getActiveImage();
-    prevImage.scale = state.scaleX;
+    prevImage.scale = Math.abs(state.scaleX);
+    prevImage.mirror = state.scaleX < 0 !== state.scaleY < 0;
     prevImage.left = state.left;
     prevImage.top = state.top;
     prevImage.rotate = state.rotate;

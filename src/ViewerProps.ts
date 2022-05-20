@@ -12,6 +12,7 @@ export interface ImageDecorator {
   left?: number;
   top?: number;
   rotate?: number;
+  mirror?: boolean;
 }
 
 export interface ToolbarConfig {
