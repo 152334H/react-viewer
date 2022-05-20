@@ -346,7 +346,9 @@ export default (props: ViewerProps) => {
     prevImage.mirror = state.scaleX < 0 !== state.scaleY < 0;
     prevImage.left = state.left;
     prevImage.top = state.top;
-    prevImage.rotate = state.rotate;
+    prevImage.rotate = (state.rotate + 180 *
+        +(state.scaleX > 0 && state.scaleY < 0)
+      ) % 360;
   }
   function handleChangeImg(newIndex: number) {
     if (!loop && (newIndex >= images.length || newIndex < 0)) {
